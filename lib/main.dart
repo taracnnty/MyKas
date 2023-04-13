@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:latihan/color_schemes.g.dart';
+import 'color_schemes.g.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,271 +13,179 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyKas',
-      theme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      home: const MyHomePage(title: 'UTS Pak Humzzz'),
+      theme: ThemeData(
+        useMaterial3: true, colorScheme: lightColorScheme,
+      ),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
 
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text('Home'),
+    Text('Transactions'),
+    Text('Settings'),
+    Text('Profile'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: SizedBox(height: 340, child: _head()),
-            ),
-            SliverToBoxAdapter(
+      appBar: AppBar(
+        title: const Text('MyKas'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: 200,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Transactions History',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 19,
-                        color: Colors.white,
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.background,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context).colorScheme.outline,
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
                         ),
-                      ),
-                      Text('See all',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Colors.white,
+                      ],
+                    ),
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          'Saldo Kamu',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                  ],
+                        const SizedBox(height: 10),
+                        Text(
+                          'Rp 2.000.000',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '+ Rp 500.000',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.surfaceTint,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-            SliverList(delegate: SliverChildBuilderDelegate((context, index) {
-              return ListTile(leading: ClipRRect(borderRadius: BorderRadius.circular(5),
-              child: Image.asset('images/cre.png', height: 40),
-                ),
-                title: Text(
-                'transfer',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
+            const SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Riwayat Transaksi',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                'today',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  ),
-                ),
-                trailing: Text('\$ 56', 
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 19,
-                  color: Colors.green,
-                  ),
-                  ),
-              );
-            }
-            ),
-            ),
-          ],
-        )
-      ),
-    );
-  }
-  Widget _head(){
-    return Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    color: Color(0xff368983),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    )
-                  ),
-                  child: Stack(
-                    children: [
-                    Positioned(
-                      top: 5,
-                      left: 340,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          color: Color.fromRGBO(250, 250, 250, 0.1),
-                          child: Icon(
-                            Icons.notification_add_outlined,
-                            size: 30,
-                            color: Colors.white,
-                      ),
-                    ),)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 35, left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Good Morning, Mona', 
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 224, 223, 223),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration( 
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Theme.of(context).colorScheme.outline,
+                                width: 1.0,
+                              ),
                             ),
-                            ),
-                          Text('How Are You Today?', 
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: Colors.white,
-                            ),
-                            ),
-                        ],
-                      ),
-                    )
-                  ],),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(Icons.money),
+                            title: const Text('Transaksi'),
+                            subtitle: const Text('Belanja'),
+                            trailing: const Text('Rp 100.000'),
+                          ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            Positioned(
-              top: 140,
-              left: 37,
-              child: Container(
-                height: 170,
-                width: 320,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(47, 125, 121, 0.3),
-                      offset: Offset(0, 6),
-                      blurRadius: 12,
-                      spreadRadius: 6,
-                    ),
-                  ],
-                  color: Color.fromARGB(255, 47, 125, 121),
-                  borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Total Balance',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Colors.white,
-                              ),
-                          ),
-                          Icon(Icons.more_horiz,
-                          color: Colors.white,)
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 7),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: [
-                          Text('\$ 2,957',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.white,
-                              ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 13,
-                                backgroundColor: Color.fromARGB(255, 85, 145, 141),
-                                child: Icon(Icons.arrow_downward, color: Colors.white,size: 19),
-                              ),
-                              SizedBox(width: 7),
-                              Text('Income',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 216, 216, 216),
-                               ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 13,
-                                backgroundColor: Color.fromARGB(255, 85, 145, 141),
-                                child: Icon(Icons.arrow_upward, color: Colors.white,size: 19),
-                              ),
-                              SizedBox(width: 7),
-                              Text(
-                                'Expenses',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 216, 216, 216),
-                               ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('\$ 1,450',
-                          style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 17,
-                                    color: Colors.white,
-                                 ),
-                          ),
-                          Text('\$ 450',
-                          style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 17,
-                                    color: Colors.white,
-                                 ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ]
-        );
+          ),
+        ],
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        // aksi yang ingin dilakukan ketika tombol ditekan
+      },
+      child: const Icon(Icons.add),
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Transactions',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }
