@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'color_schemes.g.dart';
+import 'profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,18 +31,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home'),
-    Text('Transactions'),
-    Text('Settings'),
-    Text('Profile'),
-  ];
-
+  
   void _onItemTapped(int index) {
     setState(() {
+    if (index == 3) { // check if profile icon is tapped
+      // navigate to profile page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    } else {
       _selectedIndex = index;
-    });
+    }
+  });
   }
   @override
   Widget build(BuildContext context) {
