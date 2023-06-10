@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:latihan/beranda/grafik.dart';
+import 'package:latihan/fitur/anggaran.dart';
+import 'package:latihan/fitur/riwayat.dart';
+import 'package:latihan/fitur/tambah.dart';
 import 'color_schemes.g.dart';
-import 'profile.dart';
+import 'fitur/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,15 +13,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyKas',
       theme: ThemeData(
-        useMaterial3: true, colorScheme: lightColorScheme,
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
       ),
       home: const MyHomePage(),
+      routes: {
+        '/profile': (context) => ProfilePage(),
+        '/riwayat_transaksi': (context) => RiwayatPage(),
+        '/anggaran': (context) => AnggaranPage(),
+        '/tambah_transaksi': (context) => TambahTransaksiPage(),
+      },
     );
   }
 }
@@ -31,163 +41,151 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  
-  void _onItemTapped(int index) {
-    setState(() {
-    if (index == 3) { // check if profile icon is tapped
-      // navigate to profile page
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-    } else {
-      _selectedIndex = index;
-    }
-  });
-  }
+
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth <= 600;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyKas'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        title: Row(
           children: [
-            Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).colorScheme.background,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Theme.of(context).colorScheme.outline,
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 20),
-                        Text(
-                          'Saldo Kamu',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Rp 2.000.000',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          '+ Rp 500.000',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.surfaceTint,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            CircleAvatar(
+              backgroundImage: AssetImage("assets/pic.jpg"),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Riwayat Transaksi',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 300,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration( 
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Theme.of(context).colorScheme.outline,
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(Icons.money),
-                            title: const Text('Transaksi'),
-                            subtitle: const Text('Belanja'),
-                            trailing: const Text('Rp 100.000'),
-                          ),
-                      );
-                    },
-                  ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Hi, John Doe",
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  "Selamat siang",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        // aksi yang ingin dilakukan ketika tombol ditekan
-      },
-      child: const Icon(Icons.add),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Transactions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      body: grafik(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/tambah_transaksi');
+        },
+        child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: isSmallScreen
+          ? BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Beranda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.receipt),
+                  label: 'Riwayat Transaksi',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.money),
+                  label: 'Anggaran',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profil',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                if (index == 3) {
+                  Navigator.pushNamed(context, '/profile').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } else if (index == 1) {
+                  Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } else if (index == 2) {
+                  Navigator.pushNamed(context, '/anggaran').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                }
+              },
+            )
+          : null,
+      drawer: !isSmallScreen
+          ? Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text('Beranda'),
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.receipt),
+                    title: Text('Riwayat Transaksi'),
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                      Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                      });
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.money),
+                    title: Text('Anggaran'),
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 2;
+                      });
+                      Navigator.pushNamed(context, '/anggaran').then((value) {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                      });
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profil'),
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 3;
+                      });
+                      Navigator.pushNamed(context, '/profile').then((value) {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                      });
+                    },
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }
