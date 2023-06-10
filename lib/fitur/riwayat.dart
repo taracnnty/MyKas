@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class RiwayatPage extends StatelessWidget {
+  const RiwayatPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Riwayat Transaksi'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -29,12 +29,12 @@ class ProfilePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Theme.of(context).colorScheme.background,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                        color: Theme.of(context).colorScheme.outline,
+                        color: Colors.grey,
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: const Offset(0, 3),
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
@@ -43,13 +43,8 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(height: 20),
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage('assets/profile.jpg'),
-                        ),
-                        const SizedBox(height: 10),
                         Text(
-                          'John Doe',
+                          'Saldo Kamu',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontSize: 20,
@@ -58,10 +53,19 @@ class ProfilePage extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'john.doe@gmail.com',
+                          'Rp 2.000.000',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '+ Rp 500.000',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.surfaceTint,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ],
@@ -77,47 +81,36 @@ class ProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Informasi Akun',
+                    'Riwayat Transaksi',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ListTile(
-                    leading: const Icon(Icons.person),
-                    title: const Text('Nama Lengkap'),
-                    subtitle: const Text('John Doe'),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.email),
-                    title: const Text('Email'),
-                    subtitle: const Text('john.doe@gmail.com'),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.phone),
-                    title: const Text('Nomor Telepon'),
-                    subtitle: const Text('081234567890'),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Pengaturan',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(Icons.money),
+                            title: const Text('Transaksi'),
+                            subtitle: const Text('Belanja'),
+                            trailing: const Text('Rp 100.000'),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                  SwitchListTile(
-                    title: const Text('Notifikasi'),
-                    value: true,
-                    onChanged: (value) {},
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Keluar'),
-                    onTap: () {
-                      // aksi yang ingin dilakukan ketika keluar di klik
-                    },
                   ),
                 ],
               ),
