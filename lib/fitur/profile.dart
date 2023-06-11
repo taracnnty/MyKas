@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latihan/akun/login.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -114,10 +115,12 @@ class ProfilePage extends StatelessWidget {
                     value: true,
                     onChanged: (value) {},
                   ),
-                  ListTile(
+                   ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text('Keluar'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
                   ),
                 ],
               ),
@@ -127,4 +130,21 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+}
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => ProfilePage(),
+        '/login': (context) => LoginPage(),
+      },
+    );
+  }
+}
+
+void main() {
+  runApp(MyApp());
 }
