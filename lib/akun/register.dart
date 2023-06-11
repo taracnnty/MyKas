@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -48,4 +47,21 @@ class RegisterPage extends StatelessWidget {
       ),
     );
   }
+}
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      initialRoute: '/register', // set halaman login sebagai halaman pertama
+      routes: {
+        '/beranda': (context) => MyApp(),
+        '/register': (context) => RegisterPage(),
+      },
+    );
+  }
+}
+
+void main() {
+  runApp(MyApp());
 }

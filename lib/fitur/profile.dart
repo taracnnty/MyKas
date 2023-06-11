@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
+import 'package:latihan/akun/register.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -140,6 +141,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }

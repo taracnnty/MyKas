@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latihan/akun/register.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class LoginPage extends StatelessWidget {
                 // Logic untuk melakukan login
 
                 // Navigasi ke halaman beranda setelah login berhasil
-                Navigator.pushReplacementNamed(context, '/beranda');
+                Navigator.pushReplacementNamed(context, '/register');
               },
                   child: const Text(
                     'Register',
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginPage(),
         '/beranda': (context) => MyApp(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }
