@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:latihan/akun/login.dart';
+import 'package:latihan/akun/register.dart';
 import 'package:latihan/beranda/grafik.dart';
 import 'package:latihan/fitur/anggaran.dart';
 import 'package:latihan/fitur/riwayat.dart';
@@ -27,6 +29,9 @@ class MyApp extends StatelessWidget {
         '/riwayat_transaksi': (context) => RiwayatPage(),
         '/anggaran': (context) => AnggaranPage(),
         '/tambah_transaksi': (context) => TambahTransaksiPage(),
+        '/beranda': (context) => MyApp(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }
@@ -41,7 +46,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-
+  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -61,10 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   "Hi, John Doe",
                   style: TextStyle(fontSize: 18),
-                ),
-                Text(
-                  "Selamat siang",
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
                 ),
               ],
             ),
