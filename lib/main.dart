@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 import 'package:latihan/akun/register.dart';
 import 'package:latihan/beranda/grafik.dart';
-import 'package:latihan/fitur/anggaran.dart';
+import 'package:latihan/fitur/pengeluaran.dart';
 import 'package:latihan/fitur/riwayat.dart';
 import 'package:latihan/fitur/tambah.dart';
 import 'color_schemes.g.dart';
@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/profile': (context) => ProfilePage(),
         '/riwayat_transaksi': (context) => RiwayatPage(),
-        '/anggaran': (context) => AnggaranPage(),
         '/tambah_transaksi': (context) => TambahTransaksiPage(),
         '/beranda': (context) => MyApp(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
+        '/pengeluaran': (context) => PengeluaranPage(),
+        '/tambah': (context) => TambahTransaksiPage(),
       },
     );
   }
@@ -91,10 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: 'Riwayat Transaksi',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.money),
-                  label: 'Anggaran',
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(Icons.person),
                   label: 'Profil',
                 ),
@@ -104,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _selectedIndex = index;
                 });
-                if (index == 3) {
+                if (index == 2) {
                   Navigator.pushNamed(context, '/profile').then((value) {
                     setState(() {
                       _selectedIndex = 0;
@@ -116,13 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       _selectedIndex = 0;
                     });
                   });
-                } else if (index == 2) {
-                  Navigator.pushNamed(context, '/anggaran').then((value) {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  });
-                }
+                } 
               },
             )
           : null,
@@ -156,25 +147,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.money),
-                    title: Text('Anggaran'),
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 2;
-                      });
-                      Navigator.pushNamed(context, '/anggaran').then((value) {
-                        setState(() {
-                          _selectedIndex = 0;
-                        });
-                      });
-                    },
-                  ),
-                  ListTile(
                     leading: Icon(Icons.person),
                     title: Text('Profil'),
                     onTap: () {
                       setState(() {
-                        _selectedIndex = 3;
+                        _selectedIndex = 2;
                       });
                       Navigator.pushNamed(context, '/profile').then((value) {
                         setState(() {

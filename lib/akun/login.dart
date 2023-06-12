@@ -9,6 +9,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        automaticallyImplyLeading: false, 
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -29,15 +30,19 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-            onPressed: () {
-              // Logic untuk melakukan login
-              
-              // Navigasi ke halaman beranda setelah login berhasil
-              Navigator.pushReplacementNamed(context, '/beranda');
-            },
-            child: const Text('Login'),
+              onPressed: () {
+                // Logic untuk melakukan login
+                
+                // Navigasi ke halaman beranda setelah login berhasil
+                Navigator.pushReplacementNamed(context, '/beranda');
+              },
+              child: const Text(
+                'Login',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
-          const SizedBox(height: 16.0),
             const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -45,20 +50,20 @@ class LoginPage extends StatelessWidget {
                 const Text(
                   'Belum punya akun? ',
                   style: TextStyle(
-                    color: Colors.black54,
+                    color: Colors.black,
                   ),
                 ),
                 ElevatedButton(
-              onPressed: () {
-                // Logic untuk melakukan login
-
-                // Navigasi ke halaman beranda setelah login berhasil
-                Navigator.pushReplacementNamed(context, '/register');
-              },
+                  onPressed: () {
+                    // Logic untuk melakukan login
+                    
+                    // Navigasi ke halaman beranda setelah login berhasil
+                    Navigator.pushReplacementNamed(context, '/register');
+                  },
                   child: const Text(
                     'Register',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black54,
                     ),
                   ),
                 ),
