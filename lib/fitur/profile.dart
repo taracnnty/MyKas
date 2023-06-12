@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 import 'package:latihan/akun/register.dart';
+import 'package:latihan/fitur/riwayat.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +21,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
-        automaticallyImplyLeading: isSmallScreen,
+        automaticallyImplyLeading: !isSmallScreen, // Tampilkan tombol kembali hanya pada layar kecil
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -116,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                     value: true,
                     onChanged: (value) {},
                   ),
-                   ListTile(
+                  ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text('Keluar'),
                     onTap: () {
@@ -129,9 +137,77 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: isSmallScreen
+          ? BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Beranda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.receipt),
+                  label: 'Riwayat Transaksi',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profil',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                if (index == 0) {
+                  Navigator.pushNamed(context, '/beranda').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } else if (index == 1) {
+                  Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } 
+              },
+            )
+          : null,
+      drawer: !isSmallScreen
+          ? Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text('Beranda'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/beranda');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.receipt),
+                    title: Text('Riwayat Transaksi'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/riwayat_transaksi');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profil'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/');
+                    },
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -142,6 +218,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
+        '/riwayat_transaksi': (context) => RiwayatPage(),
       },
     );
   }
