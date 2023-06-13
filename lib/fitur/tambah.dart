@@ -66,10 +66,10 @@ class _HomePageState extends State<MyHomePage> {
                   onPressed: () {
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    onPrimary: Colors.black,
+                    primary: Theme.of(context).colorScheme.surface,
+                    onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
                     side: BorderSide(
-                      color: Colors.grey,
+                      color: Theme.of(context).colorScheme.outline,
                       width: 1.0,
                     ),
                     shape: RoundedRectangleBorder(
@@ -82,10 +82,10 @@ class _HomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/pengeluaran');
                 },style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    primary: Theme.of(context).colorScheme.onSecondary,
+                    onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
                     side: BorderSide(
-                      color: Colors.grey,
+                      color: Theme.of(context).colorScheme.outline,
                       width: 1.0,
                     ),
                     shape: RoundedRectangleBorder(

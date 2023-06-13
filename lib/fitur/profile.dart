@@ -57,11 +57,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 20),
                         const CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage('assets/pic.jpg'),
+                          backgroundImage: AssetImage('assets/foto.png'),
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'John Doe',
+                          'Sekar Ayu',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontSize: 20,
@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'john.doe@gmail.com',
+                          'Sekarayu123@gmail.com',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.surfaceTint,
                             fontSize: 16,
@@ -99,17 +99,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('Nama Lengkap'),
-                    subtitle: const Text('John Doe'),
+                    subtitle: const Text('Sekar Ayu'),
                   ),
                   ListTile(
                     leading: const Icon(Icons.email),
                     title: const Text('Email'),
-                    subtitle: const Text('john.doe@gmail.com'),
+                    subtitle: const Text('Sekarayu123@gmail.com'),
                   ),
                   ListTile(
                     leading: const Icon(Icons.phone),
                     title: const Text('Nomor Telepon'),
-                    subtitle: const Text('081234567890'),
+                    subtitle: const Text('081234567891'),
                   ),
                   const SizedBox(height: 20),
                   const Text(

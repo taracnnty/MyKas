@@ -27,7 +27,7 @@ class grafik extends StatelessWidget {
               Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Theme.of(context).colorScheme.outline,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 // Tambahkan kode untuk menampilkan grafik di sini
