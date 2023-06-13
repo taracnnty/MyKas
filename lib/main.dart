@@ -58,14 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage("assets/pic.jpg"),
+              backgroundImage: AssetImage("assets/foto.png"),
             ),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi, John Doe",
+                  "Hi, Sekar Ayu",
                   style: TextStyle(fontSize: 18),
                 ),
               ],

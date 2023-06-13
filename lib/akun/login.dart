@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
                   child: const Text(
                     'Register',
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.white,
                     ),
                   ),
                 ),
