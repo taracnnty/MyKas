@@ -115,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 } 
               },
+              selectedItemColor: Colors.blue,
             )
           : null,
       drawer: !isSmallScreen

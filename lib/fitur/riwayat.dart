@@ -165,6 +165,7 @@ class _RiwayatPageState extends State<RiwayatPage> {
                   });
                 }
               },
+                selectedItemColor: Colors.blue,
             )
           : null,
       drawer: !isSmallScreen

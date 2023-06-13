@@ -66,10 +66,10 @@ class _HomePageState extends State<MyHomePage> {
                   onPressed: () {
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.surface,
-                    onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
+                    primary: Theme.of(context).colorScheme.background,
+                    onPrimary: Theme.of(context).colorScheme.surface,
                     side: BorderSide(
-                      color: Theme.of(context).colorScheme.outline,
+                      color: Theme.of(context).colorScheme.surface,
                       width: 1.0,
                     ),
                     shape: RoundedRectangleBorder(
@@ -83,7 +83,7 @@ class _HomePageState extends State<MyHomePage> {
                   Navigator.pushReplacementNamed(context, '/pengeluaran');
                 },style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.onSecondary,
-                    onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
+                    onPrimary: Theme.of(context).colorScheme.outline,
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.outline,
                       width: 1.0,
@@ -119,7 +119,7 @@ class _HomePageState extends State<MyHomePage> {
           ElevatedButton(
             child: const Text('Tambah Transaksi',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
             onPressed: tambahTransaksi,

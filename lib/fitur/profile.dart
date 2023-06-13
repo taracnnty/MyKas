@@ -172,6 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   });
                 } 
               },
+                selectedItemColor: Colors.blue,
             )
           : null,
       drawer: !isSmallScreen
