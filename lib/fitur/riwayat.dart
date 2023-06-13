@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
-class RiwayatPage extends StatelessWidget {
+class RiwayatPage extends StatefulWidget {
   const RiwayatPage({Key? key}) : super(key: key);
 
   @override
+  _RiwayatPageState createState() => _RiwayatPageState();
+}
+
+class _RiwayatPageState extends State<RiwayatPage> {
+  int _selectedIndex = 1;
+
+  @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth <= 600;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riwayat Transaksi'),
+        automaticallyImplyLeading: !isSmallScreen,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -97,7 +106,10 @@ class RiwayatPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.2),
                                 width: 1.0,
                               ),
                             ),
@@ -118,6 +130,73 @@ class RiwayatPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: isSmallScreen
+          ? BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Beranda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.receipt),
+                  label: 'Riwayat Transaksi',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profil',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                if (index == 0) {
+                  Navigator.pushNamed(context, '/beranda').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } else if (index == 2) {
+                  Navigator.pushNamed(context, '/profile').then((value) {
+                    setState(() {
+                      _selectedIndex = 2;
+                    });
+                  });
+                }
+              },
+            )
+          : null,
+      drawer: !isSmallScreen
+          ? Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text('Beranda'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/beranda');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.receipt),
+                    title: Text('Riwayat Transaksi'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/riwayat_transaksi');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profil'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:latihan/fitur/pengeluaran.dart';
+import 'package:latihan/fitur/tambah.dart';
 
-class TambahTransaksiPage extends StatelessWidget {
+class PengeluaranPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +43,7 @@ class _HomePageState extends State<MyHomePage> {
 
     Transaksi transaksi = Transaksi(nama, jumlah);
     setState(() {
-      saldo += jumlah;
+      saldo -= jumlah;
       riwayatTransaksi.add(transaksi);
     });
 
@@ -63,10 +63,10 @@ class _HomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                  onPressed: () {
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/tambah');
+                },style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
                     onPrimary: Colors.black,
                     side: BorderSide(
                       color: Colors.grey,
@@ -78,11 +78,10 @@ class _HomePageState extends State<MyHomePage> {
                   ),
                   child: const Text('Pemasukan'),
                 ),
-                ElevatedButton(
+              ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/pengeluaran');
                 },style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
+                    primary: Colors.blue,
                     onPrimary: Colors.black,
                     side: BorderSide(
                       color: Colors.grey,
@@ -135,10 +134,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
-      initialRoute: '/tambah',
+      initialRoute: '/pengeluaran', // set halaman login sebagai halaman pertama
       routes: {
-        '/pengeluaran': (context) => PengeluaranPage(),
         '/tambah': (context) => TambahTransaksiPage(),
+        '/pengeluaran': (context) => PengeluaranPage(),
       },
     );
   }
