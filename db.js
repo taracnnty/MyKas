@@ -29,8 +29,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/data', (req, res) => {
-  const { nama, email, password, no_telp } = req.body;
+  // Mendapatkan data dari body request
+  const {nama, email, password, no_telp} = req.body;
 
+  // Memeriksa apakah data yang diperlukan ada
   if (nama && email && password && no_telp) {
     const data = {
       nama,
@@ -39,19 +41,20 @@ app.post('/data', (req, res) => {
       no_telp,
     };
 
-    // Lakukan operasi create di database menggunakan nilai data
-    db.query('INSERT INTO data_keuangan SET ?', data, (error, results) => {
+    // Melakukan operasi create di database menggunakan nilai data
+    db.query('INSERT INTO tb_user SET ?', data, (error, results) => {
       if (error) {
         console.log(error);
-        res.status(500).json({ message: "Error creating data in database" });
+        res.status(500).json({ message: 'Error creating data in database' });
       } else {
-        res.status(200).json({ message: "Data created successfully" });
+        res.status(200).json({ message: 'Data created successfully' });
       }
     });
   } else {
-    res.status(400).json({ message: "Invalid data format" });
+    res.status(400).json({ message: 'Invalid data format' });
   }
 });
+
 
 // Mengambil data dari tabel tb_user
 app.get('/data', (req, res) => {
@@ -65,6 +68,7 @@ app.get('/data', (req, res) => {
     res.json(results);
   });
 });
+
 
 // Menjalankan server
 app.listen(port, () => {

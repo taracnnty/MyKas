@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:latihan/akun/login.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:latihan/akun/login.dart';
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController _namaController = TextEditingController();
@@ -65,11 +64,12 @@ class RegisterPage extends StatelessWidget {
                 // Navigasi ke halaman beranda setelah registrasi berhasil
                 Navigator.pushReplacementNamed(context, '/beranda');
               },
-              child: const Text('Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
+              child: const Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
             const SizedBox(height: 16.0),
             Row(
@@ -84,7 +84,7 @@ class RegisterPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Logic untuk melakukan login
-                    
+
                     // Navigasi ke halaman beranda setelah login berhasil
                     Navigator.pushReplacementNamed(context, '/login');
                   },
@@ -103,6 +103,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -126,10 +127,10 @@ class DatabaseService {
     final response = await http.post(
       url,
       body: {
-        'name': nama,
+        'nama': nama,
         'email': email,
         'password': password,
-        'phoneNumber': no_telp,
+        'no_telp': no_telp,
       },
     );
 
