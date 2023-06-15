@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 
+import 'package:http/http.dart' as http;
+
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  final TextEditingController _namaController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _no_telpController = TextEditingController();
+
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +24,21 @@ class RegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _namaController,
               decoration: const InputDecoration(
                 labelText: 'Nama',
               ),
             ),
             const SizedBox(height: 16.0),
             TextField(
+              controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
             const SizedBox(height: 16.0),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
@@ -36,7 +46,7 @@ class RegisterPage extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              obscureText: true,
+              controller: _no_telpController,
               decoration: const InputDecoration(
                 labelText: 'No Telepon',
               ),
@@ -45,6 +55,12 @@ class RegisterPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Logic untuk melakukan registrasi
+                final nama = _namaController.text;
+                final email = _emailController.text;
+                final password = _passwordController.text;
+                final no_telp = _no_telpController.text;
+
+                DatabaseService().register(nama, email, password, no_telp);
 
                 // Navigasi ke halaman beranda setelah registrasi berhasil
                 Navigator.pushReplacementNamed(context, '/beranda');
@@ -99,6 +115,31 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
       },
     );
+  }
+}
+
+class DatabaseService {
+  static const String baseUrl = 'http://localhost:3000'; // Ganti dengan URL server Node.js
+
+  Future<void> register(String nama, String email, String password, String no_telp) async {
+    final url = Uri.parse('$baseUrl/register');
+    final response = await http.post(
+      url,
+      body: {
+        'name': nama,
+        'email': email,
+        'password': password,
+        'phoneNumber': no_telp,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Registrasi berhasil
+      print('Registrasi berhasil');
+    } else {
+      // Registrasi gagal
+      print('Registrasi gagal');
+    }
   }
 }
 
