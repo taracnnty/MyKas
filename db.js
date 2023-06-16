@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-app.post('/data', (req, res) => {
+app.post('/register', (req, res) => {
   // Mendapatkan data dari body request
   const {nama, email, password, no_telp} = req.body;
 

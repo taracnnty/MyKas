@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:latihan/akun/login.dart';
+import 'dart:convert';
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _no_telpController = TextEditingController();
+  final TextEditingController _saldo = TextEditingController();
 
   RegisterPage({Key? key}) : super(key: key);
 
@@ -58,8 +60,10 @@ class RegisterPage extends StatelessWidget {
                 final email = _emailController.text;
                 final password = _passwordController.text;
                 final no_telp = _no_telpController.text;
+                final saldo = _saldo.text;
 
-                DatabaseService().register(nama, email, password, no_telp);
+                DatabaseService()
+                    .register(nama, email, password, no_telp, saldo);
 
                 // Navigasi ke halaman beranda setelah registrasi berhasil
                 Navigator.pushReplacementNamed(context, '/beranda');
@@ -120,30 +124,34 @@ class MyApp extends StatelessWidget {
 }
 
 class DatabaseService {
-  static const String baseUrl = 'http://localhost:3000'; // Ganti dengan URL server Node.js
+  // Ganti dengan URL server Node.js
 
-  Future<void> register(String nama, String email, String password, String no_telp) async {
-    final url = Uri.parse('$baseUrl/register');
-    final response = await http.post(
-      url,
-      body: {
-        'nama': nama,
-        'email': email,
-        'password': password,
-        'no_telp': no_telp,
-      },
-    );
+  Future<void> register(String nama, String email, String password,
+      String no_telp, String saldo) async {
+    final url = Uri.parse('http://localhost:3000/register');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'nama': nama,
+          'email': email,
+          'password': password,
+          'no_telp': no_telp,
+          'saldo': saldo,
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      // Registrasi berhasil
-      print('Registrasi berhasil');
-    } else {
-      // Registrasi gagal
-      print('Registrasi gagal');
+      if (response.statusCode == 200) {
+        // Registrasi berhasil
+        print('Registrasi berhasil');
+      } else {
+        // Registrasi gagal
+        print(response.body);
+      }
+    } catch (error) {
+      // Terjadi kesalahan saat melakukan request
+      print('Terjadi kesalahan: $error');
     }
   }
-}
-
-void main() {
-  runApp(MyApp());
 }
