@@ -1,48 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:latihan/fitur/pengeluaran.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class TambahTransaksiPage extends StatelessWidget {
-  final TextEditingController _nama_transaksiController = TextEditingController();
+import 'package:latihan/fitur/pengeluaran.dart';
+import 'package:latihan/fitur/profile.dart';
+
+class Transaksi {
+  final String namaTransaksi;
+  final double pemasukan;
+
+  Transaksi(this.namaTransaksi, this.pemasukan);
+}
+
+class TambahTransaksiPage extends StatefulWidget {
+  const TambahTransaksiPage({Key? key}) : super(key: key);
+
+  @override
+  _TambahTransaksiPageState createState() => _TambahTransaksiPageState();
+}
+
+class _TambahTransaksiPageState extends State<TambahTransaksiPage> {
+  int _selectedIndex = 1;
+  double saldo = 0;
+  List<Transaksi> riwayatTransaksi = [];
+  final TextEditingController _namaTransaksiController = TextEditingController();
   final TextEditingController _pemasukanController = TextEditingController();
 
-  Future<void> tambahTransaksi(String namaTransaksi, double pemasukan) async {
-    final url = Uri.parse('http://localhost:9000/data4');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'nama_transaksi': namaTransaksi,
-          'pemasukan': pemasukan.toString(),
-        }),
-      );
+  void tambahTransaksi(String namaTransaksi, double pemasukan) async {
+  Transaksi transaksi = Transaksi(namaTransaksi, pemasukan);
+  setState(() {
+    saldo += pemasukan;
+    riwayatTransaksi.add(transaksi);
+  });
 
-      if (response.statusCode == 200) {
-        // Data berhasil ditambahkan ke database
-        print('Data berhasil ditambahkan');
-      } else {
-        // Gagal menambahkan data ke database
-        print(response.body);
-      }
-    } catch (error) {
-      // Terjadi kesalahan saat melakukan request
-      print('Terjadi kesalahan: $error');
+  final url = Uri.parse('http://localhost:9000/data4');
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'nama_transaksi': namaTransaksi,
+        'pemasukan': pemasukan.toString(),
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Data berhasil ditambahkan ke database
+      print('Data berhasil ditambahkan');
+    } else {
+      // Gagal menambahkan data ke database
+      print(response.body);
     }
+  } catch (error) {
+    // Terjadi kesalahan saat melakukan request
+    print('Terjadi kesalahan: $error');
   }
+}
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth <= 600;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Tambah Transaksi'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: !isSmallScreen,
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -53,13 +76,14 @@ class TambahTransaksiPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/pengeluaran');
-                },style: ElevatedButton.styleFrom(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/pengeluaran');
+                  },
+                  style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.onSecondary,
                     onPrimary: Theme.of(context).colorScheme.outline,
                     side: BorderSide(
-                      color: Theme.of(context).colorScheme.outline,
+                      color: Theme.of(context).colorScheme.onSecondary,
                       width: 1.0,
                     ),
                     shape: RoundedRectangleBorder(
@@ -69,8 +93,7 @@ class TambahTransaksiPage extends StatelessWidget {
                   child: const Text('Pengeluaran'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.background,
                     onPrimary: Theme.of(context).colorScheme.surface,
@@ -86,11 +109,15 @@ class TambahTransaksiPage extends StatelessWidget {
                 ),
               ],
             ),
+            Text(
+              'Total: $saldo',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 20),
             TextField(
-            controller: _nama_transaksiController,
-            decoration: InputDecoration(
-              labelText: 'Nama Transaksi',
+              controller: _namaTransaksiController,
+              decoration: InputDecoration(
+                labelText: 'Nama Transaksi',
               ),
             ),
             SizedBox(height: 10),
@@ -110,19 +137,109 @@ class TambahTransaksiPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                String namaTransaksi = _nama_transaksiController.text;
-                double pengeluaran = double.parse(_pemasukanController.text);
+                String namaTransaksi = _namaTransaksiController.text;
+                double pemasukan = double.parse(_pemasukanController.text);
 
-                tambahTransaksi(namaTransaksi, pengeluaran);
+                tambahTransaksi(namaTransaksi, pemasukan);
 
                 // Reset form input
-                _nama_transaksiController.clear();
+                _namaTransaksiController.clear();
                 _pemasukanController.clear();
               },
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Riwayat Transaksi',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: riwayatTransaksi.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      riwayatTransaksi[index].namaTransaksi,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'Jumlah: ${riwayatTransaksi[index].pemasukan}',
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: isSmallScreen
+          ? BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Beranda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.receipt),
+                  label: 'Tambah Transaksi',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profil',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                if (index == 0) {
+                  Navigator.pushNamed(context, '/beranda').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                } else if (index == 2) {
+                  Navigator.pushNamed(context, '/profile').then((value) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                }
+              },
+              selectedItemColor: Colors.blue,
+            )
+          : null,
+      drawer: !isSmallScreen
+          ? Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text('Beranda'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/beranda');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.receipt),
+                    title: Text('Tambah Transaksi'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/tambah');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profil'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }
@@ -132,10 +249,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
-      initialRoute: '/tambah', 
+      initialRoute: '/tambah',
       routes: {
         '/pengeluaran': (context) => PengeluaranPage(),
         '/tambah': (context) => TambahTransaksiPage(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 import 'package:latihan/akun/register.dart';
 import 'package:latihan/beranda/grafik.dart';
-import 'package:latihan/fitur/pengeluaran.dart';
-import 'package:latihan/fitur/riwayat.dart';
 import 'package:latihan/fitur/tambah.dart';
+import 'package:latihan/fitur/pengeluaran.dart';
 import 'color_schemes.g.dart';
 import 'fitur/profile.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(),
       routes: {
         '/profile': (context) => ProfilePage(),
-        '/riwayat_transaksi': (context) => RiwayatPage(),
         '/tambah_transaksi': (context) => TambahTransaksiPage(),
         '/beranda': (context) => MyApp(),
         '/login': (context) => LoginPage(),
@@ -47,6 +47,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  String nama = '';
+  double pengeluaran = 0;
+
+  Future<void> fetchData() async {
+    final url = Uri.parse('http://localhost:9000/data');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          nama = data['nama'] ?? '';
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Terjadi kesalahan: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -61,25 +87,26 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundImage: AssetImage("assets/foto.png"),
             ),
             const SizedBox(width: 8),
-            Column(
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi, Sekar Ayu",
+                  "Hi, ",
                   style: TextStyle(fontSize: 18),
                 ),
+                Text(
+                nama,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 18,
+                ),
+              ),
               ],
             ),
           ],
         ),
       ),
-      body: grafik(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/tambah_transaksi');
-        },
-        child: const Icon(Icons.add),
-      ),
+      body: grafik(pengeluaran: pengeluaran),
       bottomNavigationBar: isSmallScreen
           ? BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
@@ -89,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.receipt),
-                  label: 'Riwayat Transaksi',
+                  label: 'Tambah Transaksi',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
@@ -108,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   });
                 } else if (index == 1) {
-                  Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                  Navigator.pushNamed(context, '/pengeluaran').then((value) {
                     setState(() {
                       _selectedIndex = 0;
                     });
@@ -135,12 +162,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   ListTile(
                     leading: Icon(Icons.receipt),
-                    title: Text('Riwayat Transaksi'),
+                    title: Text('Tambah Transaksi'),
                     onTap: () {
                       setState(() {
                         _selectedIndex = 1;
                       });
-                      Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                      Navigator.pushNamed(context, '/pengeluaran').then((value) {
                         setState(() {
                           _selectedIndex = 0;
                         });

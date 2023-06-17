@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 import 'package:latihan/akun/register.dart';
-import 'package:latihan/fitur/riwayat.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -177,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.receipt),
-                  label: 'Riwayat Transaksi',
+                  label: 'Tambah Transaksi',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
@@ -196,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     });
                   });
                 } else if (index == 1) {
-                  Navigator.pushNamed(context, '/riwayat_transaksi').then((value) {
+                  Navigator.pushNamed(context, '/pengeluaran').then((value) {
                     setState(() {
                       _selectedIndex = 0;
                     });
@@ -220,9 +219,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ListTile(
                     leading: Icon(Icons.receipt),
-                    title: Text('Riwayat Transaksi'),
+                    title: Text('Tambah Transaksi'),
                     onTap: () {
-                      Navigator.pushNamed(context, '/riwayat_transaksi');
+                      Navigator.pushNamed(context, '/pengeluaran');
                     },
                   ),
                   ListTile(
@@ -247,10 +246,9 @@ class MyApp extends StatelessWidget {
       title: 'My App',
       initialRoute: '/',
       routes: {
-        '/': (context) => ProfilePage(),
+        '/profile': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/riwayat_transaksi': (context) => RiwayatPage(),
       },
     );
   }

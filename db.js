@@ -122,10 +122,10 @@ app.get('/login', (req, res) => {
     // Memeriksa apakah ada hasil dari query
     if (results.length > 0) {
       // Autentikasi berhasil
-      res.status(200).json({ message: 'Login successful' });
+      res.status(200).json({ message: 'Login Berhasil' });
     } else {
       // Autentikasi gagal
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Login Gagal' });
     }
   });
 });
@@ -157,7 +157,7 @@ app.get('/data', (req, res) => {
 
 
 app.get('/data1', (req, res) => {
-  const query = 'SELECT SUM(jumlah) AS pengeluaran FROM tb_riwayat';
+  const query = 'SELECT nama_transaksi, SUM(pengeluaran) FROM tb_riwayat GROUP BY nama_transaksi';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
@@ -165,10 +165,10 @@ app.get('/data1', (req, res) => {
       return;
     }
     if (results.length > 0) {
-      const row = results[0];
-      const data = {
+      const data = results.map(row => ({
+        nama_transaksi: row.nama_transaksi,
         pengeluaran: row.pengeluaran,
-      };
+      }));
       res.json(data);
     } else {
       res.sendStatus(404);
@@ -176,8 +176,9 @@ app.get('/data1', (req, res) => {
   });
 });
 
+
 app.get('/data2', (req, res) => {
-  const query = 'SELECT SUM(jumlah) AS pemasukan FROM tb_pemasukan';
+  const query = 'SELECT nama_transaksi, SUM(pemasukan) FROM tb_pemasukan GROUP BY nama_transaksi';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
@@ -187,6 +188,7 @@ app.get('/data2', (req, res) => {
     if (results.length > 0) {
       const row = results[0];
       const data = {
+        nama_transaksi: row.nama_transaksi,
         pemasukan: row.pemasukan,
       };
       res.json(data);
