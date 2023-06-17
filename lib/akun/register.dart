@@ -87,9 +87,6 @@ class RegisterPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Logic untuk melakukan login
-
-                    // Navigasi ke halaman beranda setelah login berhasil
                     Navigator.pushReplacementNamed(context, '/login');
                   },
                   child: const Text(
@@ -128,7 +125,7 @@ class DatabaseService {
 
   Future<void> register(String nama, String email, String password,
       String no_telp, String saldo) async {
-    final url = Uri.parse('http://localhost:3000/register');
+    final url = Uri.parse('http://localhost:9000/register');
     try {
       final response = await http.post(
         url,

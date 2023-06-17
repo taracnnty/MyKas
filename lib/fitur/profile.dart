@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:latihan/akun/login.dart';
 import 'package:latihan/akun/register.dart';
 import 'package:latihan/fitur/riwayat.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -12,6 +14,35 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 2;
+  String nama = '';
+  String email = '';
+  String noTelp = '';
+
+  Future<void> fetchData() async {
+    final url = Uri.parse('http://localhost:9000/data');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          nama = data['nama'] ?? '';
+          email = data['email'] ?? '';
+          noTelp = data['no_telp'] ?? '';
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Terjadi kesalahan: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
-        automaticallyImplyLeading: !isSmallScreen, // Tampilkan tombol kembali hanya pada layar kecil
+        automaticallyImplyLeading: !isSmallScreen,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -61,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Sekar Ayu',
+                          nama,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontSize: 20,
@@ -70,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Sekarayu123@gmail.com',
+                          email,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.surfaceTint,
                             fontSize: 16,
@@ -99,17 +130,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('Nama Lengkap'),
-                    subtitle: const Text('Sekar Ayu'),
+                    subtitle: Text(nama),
                   ),
                   ListTile(
                     leading: const Icon(Icons.email),
                     title: const Text('Email'),
-                    subtitle: const Text('Sekarayu123@gmail.com'),
+                    subtitle: Text(email),
                   ),
                   ListTile(
                     leading: const Icon(Icons.phone),
-                    title: const Text('Nomor Telepon'),
-                    subtitle: const Text('081234567891'),
+                    title: const Text('No Telepon'),
+                    subtitle: Text(noTelp),
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -170,9 +201,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       _selectedIndex = 0;
                     });
                   });
-                } 
+                }
               },
-                selectedItemColor: Colors.blue,
+              selectedItemColor: Colors.blue,
             )
           : null,
       drawer: !isSmallScreen

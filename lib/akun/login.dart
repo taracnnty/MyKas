@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:latihan/akun/register.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
-        automaticallyImplyLeading: false, 
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -17,12 +22,14 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
             const SizedBox(height: 16.0),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
@@ -32,7 +39,11 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Logic untuk melakukan login
-                
+                final email = _emailController.text;
+                final password = _passwordController.text;
+
+                DatabaseService().login(email, password);
+
                 // Navigasi ke halaman beranda setelah login berhasil
                 Navigator.pushReplacementNamed(context, '/beranda');
               },
@@ -55,8 +66,6 @@ class LoginPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Logic untuk melakukan login
-                    
                     // Navigasi ke halaman beranda setelah login berhasil
                     Navigator.pushReplacementNamed(context, '/register');
                   },
@@ -89,6 +98,26 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+class DatabaseService {
+  // Ganti dengan URL server Node.js
+
+  Future<void> login(String email, String password) async {
+  final url = Uri.parse('http://localhost:9000/login?email=$email&password=$password');
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print('Login berhasil');
+    } else {
+      print(response.body);
+    }
+  } catch (error) {
+    // Terjadi kesalahan saat melakukan request
+    print('Terjadi kesalahan: $error');
+  }
+}
 }
 
 void main() {
