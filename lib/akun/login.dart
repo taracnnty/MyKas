@@ -37,6 +37,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 8.0),
                 Text(
                   'Catat penggunaan keuanganmu, hanya di aplikasi MyKas',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,

@@ -24,11 +24,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: lightColorScheme,
       ),
-      home: const MyHomePage(),
+      home: LoginPage(),
       routes: {
         '/profile': (context) => ProfilePage(),
         '/tambah_transaksi': (context) => TambahTransaksiPage(),
-        '/beranda': (context) => MyApp(),
+        '/beranda': (context) => MyHomePage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/pengeluaran': (context) => PengeluaranPage(),
@@ -92,22 +92,24 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   "Hi, ",
-                  style: TextStyle(fontSize: 18,
-                  color: Theme.of(context).colorScheme.onSecondary),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 ),
                 Text(
-                nama,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  fontSize: 18,
+                  nama,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
               ],
             ),
           ],
         ),
       ),
-      body: grafik (pengeluaran: pengeluaran),
+      body: grafik(pengeluaran: pengeluaran),
       bottomNavigationBar: isSmallScreen
           ? BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
@@ -150,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ? Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
-      
                 children: [
                   ListTile(
                     leading: Icon(Icons.home),
