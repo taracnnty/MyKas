@@ -1,9 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class grafik extends StatelessWidget {
-  const grafik(double pengeluaran, {
+import 'package:latihan/beranda/total.dart';
+
+class grafik extends StatefulWidget {
+  const grafik({
     Key? key,
+     required int pengeluaran,
   }) : super(key: key);
+
+  @override
+  _grafikState createState() => _grafikState();
+}
+
+class _grafikState extends State<grafik> {
+  List<charts.Series<dynamic, String>> _seriesList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:9000/data1'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+        setState(() {
+          _seriesList = _createCategoryData(jsonData);
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  List<charts.Series<dynamic, String>> _createCategoryData(List<dynamic> data) {
+  return [
+    charts.Series<dynamic, String>(
+      id: 'pengeluaran',
+      domainFn: (dynamic d, _) => d['nama_transaksi'],
+      measureFn: (dynamic d, _) => int.tryParse(d['pengeluaran'].toString()) ?? 0,
+      data: data,
+    )
+  ];
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,100 +76,19 @@ class grafik extends StatelessWidget {
                   color: Theme.of(context).colorScheme.outline,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                // Tambahkan kode untuk menampilkan grafik di sini
-                child: Center(
-                  child: Text('Grafik Transaksi'),
+                child: charts.BarChart(
+                  _seriesList,
+                  animate: true,
+                  animationDuration: Duration(milliseconds: 500),
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(height: 5),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).colorScheme.background,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                Text(
-                  'Saldo Kamu',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Rp 2.000.000',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
         SizedBox(height: 10),
         SizedBox(
           height: 120,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Pengeluaran',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Rp 500.000',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Pemasukan',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Rp 1.000.000',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          child: Total(),
         ),
       ],
     );

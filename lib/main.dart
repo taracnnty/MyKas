@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   String nama = '';
-  double pengeluaran = 0;
+  int pengeluaran = 0;
 
   Future<void> fetchData() async {
     final url = Uri.parse('http://localhost:9000/data');
@@ -93,13 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   "Hi, ",
                   style: TextStyle(fontSize: 18,
-                  color: Colors.white),
-                  
+                  color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 Text(
                 nama,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   fontSize: 18,
                 ),
               ),

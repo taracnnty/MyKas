@@ -64,6 +64,10 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tambah Transaksi'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+          fontSize: 22,
+        ),
         automaticallyImplyLeading: !isSmallScreen,
       ),
       body: Container(

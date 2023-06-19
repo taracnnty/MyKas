@@ -65,6 +65,10 @@ class _TambahTransaksiPageState extends State<TambahTransaksiPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tambah Transaksi'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+          fontSize: 22,
+        ),
         automaticallyImplyLeading: !isSmallScreen,
       ),
       body: Container(

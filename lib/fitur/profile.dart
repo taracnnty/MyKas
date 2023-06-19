@@ -51,6 +51,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+          fontSize: 22,
+        ),
         automaticallyImplyLeading: !isSmallScreen,
       ),
       body: SingleChildScrollView(
