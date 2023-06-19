@@ -17,6 +17,10 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+        ),
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -24,6 +28,26 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Column(
+              children: [
+                Text(
+                  'Welcome to MyKas',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'Catat penggunaan keuanganmu, hanya di aplikasi MyKas',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
             TextField(
               controller: _namaController,
               decoration: const InputDecoration(

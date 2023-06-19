@@ -14,6 +14,10 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+        ),
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -21,13 +25,33 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Column(
+              children: [
+                Text(
+                  'Welcome to MyKas',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'Catat penggunaan keuanganmu, hanya di aplikasi MyKas',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
               obscureText: true,
@@ -35,7 +59,7 @@ class LoginPage extends StatelessWidget {
                 labelText: 'Password',
               ),
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Logic untuk melakukan login
@@ -54,7 +78,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -104,20 +128,20 @@ class DatabaseService {
   // Ganti dengan URL server Node.js
 
   Future<void> login(String email, String password) async {
-  final url = Uri.parse('http://localhost:9000/login?email=$email&password=$password');
-  try {
-    final response = await http.get(url);
+    final url = Uri.parse('http://localhost:9000/login?email=$email&password=$password');
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      print('Login berhasil');
-    } else {
-      print(response.body);
+      if (response.statusCode == 200) {
+        print('Login berhasil');
+      } else {
+        print(response.body);
+      }
+    } catch (error) {
+      // Terjadi kesalahan saat melakukan request
+      print('Terjadi kesalahan: $error');
     }
-  } catch (error) {
-    // Terjadi kesalahan saat melakukan request
-    print('Terjadi kesalahan: $error');
   }
-}
 }
 
 void main() {

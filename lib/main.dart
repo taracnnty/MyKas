@@ -92,7 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   "Hi, ",
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18,
+                  color: Colors.white),
+                  
                 ),
                 Text(
                 nama,
@@ -106,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: grafik(pengeluaran: pengeluaran),
+      body: grafik (pengeluaran: pengeluaran),
       bottomNavigationBar: isSmallScreen
           ? BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
@@ -149,10 +151,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ? Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
+      
                 children: [
                   ListTile(
                     leading: Icon(Icons.home),
+                    iconColor: Colors.white,
                     title: Text('Beranda'),
+                    textColor: Colors.white,
                     onTap: () {
                       setState(() {
                         _selectedIndex = 0;
@@ -162,7 +167,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   ListTile(
                     leading: Icon(Icons.receipt),
+                    iconColor: Colors.white,
                     title: Text('Tambah Transaksi'),
+                    textColor: Colors.white,
                     onTap: () {
                       setState(() {
                         _selectedIndex = 1;
@@ -176,7 +183,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   ListTile(
                     leading: Icon(Icons.person),
+                    iconColor: Colors.white,
                     title: Text('Profil'),
+                    textColor: Colors.white,
                     onTap: () {
                       setState(() {
                         _selectedIndex = 2;
